@@ -1,11 +1,29 @@
-export default async function getTemp (location, units){
+import fetch from 'node-fetch';
+
+async function getTemp(location) {
+    //temp
+}
+
+async function getWeather(location) {
     const key = '2752b085bb24306e72dbf85b73701144';
-    const city = location;
-    const units = units;
-    const response = await fetch(`api.openweathermap.org/data/2.5/weather?q=${city}&appid=${key}&units=${units}`);
-    const data = await response.json();
 
-    return Math.floor(data.main.temp);
-};
+    if (location === undefined) {
+        const city = 'sunnyvale';
+        const response = await fetch(
+            `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${key}`
+        );
+        const data = await response.json();
 
+        return Math.floor(data.weather.main);
+    } else {
+        const city = location;
+        const response = await fetch(
+            `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${key}`
+        );
+        const data = await response.json();
 
+        return Math.floor(data.weather.main);
+    }
+}
+
+export {getTemp, getWeather};
