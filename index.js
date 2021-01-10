@@ -1,7 +1,7 @@
 import Discord from 'discord.js';
 import dotenv from 'dotenv';
 dotenv.config();
-import {getTemp, getWeather} from './weather.js';
+import {getTemp} from './weather.js';
 import log from './logging.js';
 
 const token = process.env.TOKEN;
@@ -12,7 +12,7 @@ client.on('ready', (guild) => {
     console.log(`Logged into ${client.user.tag}`);
 });
 
-client.on('message', (msg) => {
+client.on('message', async (msg) => {
     const query = msg.content.includes(' ')
         ? msg.content.substr(prefix.length).split(' ')
         : Array(msg.content.substr(prefix.length));
@@ -21,17 +21,12 @@ client.on('message', (msg) => {
 
     log(msg);
 
-    console.log(getWeather(query[1], query[2]));
-
     switch (query[0]) {
         case 'ping':
             msg.reply('pong');
             break;
         case 'weather':
-            msg.reply(getWeather(query[1], query[2]));
-            break;
-        case 'temp':
-            msg.reply;
+            await getTemp(query[1], query[2], msg, Discord);
             break;
     }
 });
