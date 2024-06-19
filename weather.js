@@ -1,7 +1,10 @@
 import {MessageEmbed} from 'discord.js';
 import fetch from 'node-fetch';
+import dotenv from 'dotenv';
 
-const key = '2752b085bb24306e72dbf85b73701144';
+dotenv.config();
+
+const key = process.env.KEY;
 
 async function getTemp(location, units, msg, Discord) {
     const defaultCity = 'London';
